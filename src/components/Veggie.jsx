@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {Splide, SplideSlide} from '@splidejs/react-splide';
 import { Link } from 'react-router-dom';
 import '@splidejs/react-splide/css';
+const CONSTANT = require("../utils/constant");
 
 function Veggie() {
 
@@ -20,7 +21,8 @@ function Veggie() {
     if(check) {
       setVeggie(JSON.parse(check));
     } else {
-      const api = await fetch(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=10&tags=vegetarian`);      
+      const api = await fetch(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=10&tags=vegetarian`);
+      console.log(api);
       const data = await api.json();
       localStorage.setItem("veggie", JSON.stringify(data.recipes));
       setVeggie(data.recipes); 
@@ -42,9 +44,9 @@ function Veggie() {
           {
             veggie.map((recipe) => {
               return(
-                <SplideSlide key={recipe.id}>
+                <SplideSlide key={recipe._id}>
                   <Card>
-                    <Link to={"/recipe/" + recipe.id}>
+                    <Link to={"/recipe/" + recipe._id}>
                       <p>{recipe.title}</p>
                       <img src={recipe.image} alt={recipe.title}/>
                       <Gradient />
