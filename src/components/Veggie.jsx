@@ -4,30 +4,20 @@ import styled from 'styled-components';
 import {Splide, SplideSlide} from '@splidejs/react-splide';
 import { Link } from 'react-router-dom';
 import '@splidejs/react-splide/css';
-const CONSTANT = require("../utils/constant");
+import { Skeleton } from "antd";
+import { useGetLatestRecipesQuery } from '../service/recipeApi';
+
 
 function Veggie() {
 
   const [veggie, setVeggie] = useState([]);
+  const { data, isFetching} = useGetLatestRecipesQuery();
 
   useEffect(() => {
-    getVeggie();
-  },[]);
+    setVeggie(data?.data);
+  },[data?.data]);
 
-  const getVeggie = async () => {
-
-    const check = localStorage.getItem("veggie");
-
-    if(check) {
-      setVeggie(JSON.parse(check));
-    } else {
-      const api = await fetch(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=10&tags=vegetarian`);
-      console.log(api);
-      const data = await api.json();
-      localStorage.setItem("veggie", JSON.stringify(data.recipes));
-      setVeggie(data.recipes); 
-    }
-  }
+  if(isFetching) return <Skeleton active />;
 
   return (
     <div>
@@ -42,7 +32,7 @@ function Veggie() {
             gap: "5rem"
           }}>
           {
-            veggie.map((recipe) => {
+            veggie?.map((recipe) => {
               return(
                 <SplideSlide key={recipe._id}>
                   <Card>

@@ -1,4 +1,4 @@
-const LOCAL = `127.0.0.1:${process.env.REACT_APP_API_PORT}/recipe`;
+const LOCAL = `${process.env.REACT_APP_LOCAL_URL}`;
 const PRODUCTION = ``;
 
 const isLocal = true;
