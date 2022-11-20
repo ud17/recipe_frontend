@@ -3,29 +3,19 @@ import styled from 'styled-components';
 import {Splide, SplideSlide} from '@splidejs/react-splide';
 import '@splidejs/react-splide/css';
 import { Link } from "react-router-dom";
+import { useGetMostViewedRecipesQuery } from '../service/recipeApi';
+import { Skeleton } from "antd";
 
-function Popular() {
+const Popular = () => {
 
   const [popular, setPopular] = useState([]);
+  const {data, isFetching} = useGetMostViewedRecipesQuery();
 
   useEffect(() => {
-    getPopular();
-  },[]);
+    setPopular(data?.data);
+  },[data?.data]);
 
-  const getPopular = async () => {
-
-    const check = localStorage.getItem("popular");
-
-    if(check) {
-      setPopular(JSON.parse(check));
-    } else {
-      const api = await fetch(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=10`);      
-      const data = await api.json();
-      localStorage.setItem("popular", JSON.stringify(data.recipes));
-      setPopular(data.recipes); 
-      console.log(data);
-    }
-  }
+  if(isFetching) return <Skeleton active />;
 
   return (
     <div>
@@ -40,11 +30,11 @@ function Popular() {
             gap: "5rem"
           }}>
           {
-            popular.map((recipe) => {
+            popular?.map((recipe) => {
               return(
-                <SplideSlide key={recipe.id}>
+                <SplideSlide key={recipe._id}>
                   <Card>
-                    <Link to={"/recipe/" + recipe.id}>
+                    <Link to={"/recipe/" + recipe._id}>
                       <p>{recipe.title}</p>
                       <img src={recipe.image} alt={recipe.title}/>
                       <Gradient />
