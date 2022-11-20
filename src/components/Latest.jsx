@@ -8,13 +8,13 @@ import { Skeleton } from "antd";
 import { useGetLatestRecipesQuery } from '../service/recipeApi';
 
 
-function Veggie() {
+const Latest = () => {
 
-  const [veggie, setVeggie] = useState([]);
+  const [Latest, setLatest] = useState([]);
   const { data, isFetching} = useGetLatestRecipesQuery();
 
   useEffect(() => {
-    setVeggie(data?.data);
+    setLatest(data?.data);
   },[data?.data]);
 
   if(isFetching) return <Skeleton active />;
@@ -23,7 +23,7 @@ function Veggie() {
     <div>
       {
         <Wrapper>
-          <h3>Vegetarian Delicacy</h3>
+          <h3>Latest Addition</h3>
           <Splide options={{
             perPage: 2,
             arrows: true,
@@ -32,7 +32,7 @@ function Veggie() {
             gap: "5rem"
           }}>
           {
-            veggie?.map((recipe) => {
+            Latest?.map((recipe) => {
               return(
                 <SplideSlide key={recipe._id}>
                   <Card>
@@ -98,4 +98,4 @@ const Gradient = styled.div`
   background: linear-gradient(rgba(0,0,0,0) , rgba(0,0,0,0.5))
 `;
 
-export default Veggie;
+export default Latest;
