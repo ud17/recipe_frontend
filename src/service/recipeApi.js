@@ -19,6 +19,9 @@ export const recipeApi = createApi({
         getRecipeById: builder.query({
             query: (recipeId) => `/get-recipe/${recipeId}`
         }),
+        getRecipeByCategory: builder.query({
+            query: (type, page) => `/get-by-category/${type}/${page}`
+        }),
         incrementRecipeView: builder.mutation({
             query: (recipeId) => ({
                 url: `/increment-recipe-view/${recipeId}`,
@@ -34,5 +37,6 @@ export const {
     useGetMostViewedRecipesQuery,
     useGetAllRecipesQuery,
     useGetRecipeByIdQuery,
-    useIncrementRecipeViewMutation
+    useIncrementRecipeViewMutation,
+    useGetRecipeByCategoryQuery
 } = recipeApi;

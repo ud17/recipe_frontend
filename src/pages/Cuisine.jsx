@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { Skeleton } from "antd";
+import { useGetRecipeByCategoryQuery } from "../service/recipeApi";
 
 function Cuisine() {
 
   const [cuisine, setCuisine] = useState([]);
   const params = useParams();
-
-  const getCuisine = async(type) => {
-    const api = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&cuisine=${type}`);
-    const data = await api.json();
-    setCuisine(data.results);
-  }
+  const {data, isFetching} = useGetRecipeByCategoryQuery(params.type, 1);
 
   useEffect(() => {
-    getCuisine(params.type);
-  }, [params.type])
+    const response = data?.data;
+    setCuisine(response?.recipe_details);
+  }, [data?.data])
+
+  if(isFetching) return <Skeleton active />;
 
   return (
     <Grid>
       {
-        cuisine.map((item) => {
+        cuisine?.map((item) => {
           return (
-            <Card key={item.id}>
-              <Link to={"/recipe/" + item.id} >
+            <Card key={item._id}>
+              <Link to={"/recipe/" + item._id} >
                 <img src={item.image} alt={item.title} />
                 <h4>{item.title}</h4>
               </Link>
