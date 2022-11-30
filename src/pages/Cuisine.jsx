@@ -3,23 +3,34 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Skeleton } from "antd";
+import { Pagination } from "@mui/material"
 import { useGetRecipeByCategoryQuery } from "../service/recipeApi";
 
 function Cuisine() {
 
   const [cuisine, setCuisine] = useState([]);
+  const [page, setPage] = useState();
   const params = useParams();
-  const {data, isFetching} = useGetRecipeByCategoryQuery(params.type, 1);
+  const {data, isFetching} = useGetRecipeByCategoryQuery({type: params.type, page});
 
   useEffect(() => {
     const response = data?.data;
     setCuisine(response?.recipe_details);
+    if(page>response?.totalCount) setPage(1);
   }, [data?.data])
+
+  const handleChange = async (e, page) => {
+    setPage(page);
+  }
 
   if(isFetching) return <Skeleton active />;
 
   return (
-    <Grid>
+    <div>
+      <Page>
+        <Pagination count={data?.data.totalCount} defaultPage={1} page={page} variant="outlined" color="secondary" onChange={handleChange}/>
+      </Page>
+      <Grid>
       {
         cuisine?.map((item) => {
           return (
@@ -32,7 +43,8 @@ function Cuisine() {
           )
         })
       }
-    </Grid>
+      </Grid>
+    </div>
   )
 }
 
@@ -55,5 +67,11 @@ const Card = styled.div`
     padding: 1rem;
   }
 `;
+
+const Page = styled.div`
+  display: flex;
+  justify-content: end;
+  margin: 3rem 0rem;
+`
 
 export default Cuisine

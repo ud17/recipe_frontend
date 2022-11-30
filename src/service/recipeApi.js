@@ -20,7 +20,7 @@ export const recipeApi = createApi({
             query: (recipeId) => `/get-recipe/${recipeId}`
         }),
         getRecipeByCategory: builder.query({
-            query: (type, page) => `/get-by-category/${type}/${page}`
+            query: ({type, page}) =>`/get-by-category/${type}/${page}`
         }),
         incrementRecipeView: builder.mutation({
             query: (recipeId) => ({
