@@ -1,37 +1,48 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Skeleton } from "antd";
+import { Pagination } from "@mui/material"
 import { Link, useParams } from "react-router-dom";
+import { useGetRecipesByTitleQuery } from "../service/recipeApi";
 
 function Searched() {
 
+    const [page, setPage] = useState();
     const [searchedRecipes, setSearchedRecipes] = useState([]);
-    let params = useParams();
-
-    const getSearched = async(type) => {
-        const api = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&query=${type}`);
-        const data = await api.json();
-        setSearchedRecipes(data.results);
-    }
+    const params = useParams();
+    const {data, isFetching, isLoading} = useGetRecipesByTitleQuery({title: params.search, page});
 
     useEffect(() => {
-        getSearched(params.search);
-    }, [params.search]);
+      const response = data?.data;
+      setSearchedRecipes(response?.recipes);
+    }, [data?.data,params.search]);
+
+    const handleChange = async (e, page) => {
+      setPage(page);
+    }
+
+    if(isFetching || isLoading) return <Skeleton active />;
 
   return (
-    <Grid>
-        {
-            searchedRecipes.map((recipe) => {
-                return (
-                    <Card key={recipe.id}>
-                      <Link to={"/recipe/" + recipe.id}>
-                        <img src={recipe.image} alt={recipe.title}/>
-                        <h4>{recipe.title}</h4>
-                      </Link>
-                    </Card>
-                )
-            })
-        }
-    </Grid>
+    <div>
+      <Page>
+          <Pagination count={data?.data.totalCount} defaultPage={1} page={page} variant="outlined" color="secondary" onChange={handleChange}/>
+      </Page>
+      <Grid>
+          {
+              searchedRecipes?.map((recipe) => {
+                  return (
+                      <Card key={recipe._id}>
+                        <Link to={"/recipe/" + recipe._id}>
+                          <img src={recipe.image} alt={recipe.title}/>
+                          <h4>{recipe.title}</h4>
+                        </Link>
+                      </Card>
+                  )
+              })
+          }
+      </Grid>
+    </div>
   )
 }
 
@@ -53,6 +64,12 @@ const Card = styled.div`
     text-align: center;
     padding: 1rem;
   }
+`;
+
+const Page = styled.div`
+  display: flex;
+  justify-content: end;
+  margin: 3rem 0rem;
 `;
 
 export default Searched;

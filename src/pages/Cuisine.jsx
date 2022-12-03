@@ -11,7 +11,7 @@ function Cuisine() {
   const [cuisine, setCuisine] = useState([]);
   const [page, setPage] = useState();
   const params = useParams();
-  const {data, isFetching} = useGetRecipeByCategoryQuery({type: params.type, page});
+  const {data, isFetching, isLoading} = useGetRecipeByCategoryQuery({type: params.type, page});
 
   useEffect(() => {
     const response = data?.data;
@@ -23,7 +23,7 @@ function Cuisine() {
     setPage(page);
   }
 
-  if(isFetching) return <Skeleton active />;
+  if(isFetching || isLoading) return <Skeleton active />;
 
   return (
     <div>
@@ -72,6 +72,6 @@ const Page = styled.div`
   display: flex;
   justify-content: end;
   margin: 3rem 0rem;
-`
+`;
 
 export default Cuisine
