@@ -37,6 +37,7 @@ const Popular = () => {
                     <Link to={"/recipe/" + recipe._id}>
                       <p>{recipe.title}</p>
                       <img src={recipe.image} alt={recipe.title}/>
+                      <h4>{recipe.views}</h4>
                       <Gradient />
                     </Link>
                   </Card>
@@ -70,11 +71,28 @@ const Card = styled.div`
     object-fit: cover;
   }
 
-  p {
+  h4 {
     position: absolute;
     z-index: 10;
     left: 50%;
     bottom: 0%;
+    transform: translate(-50%, 0%);
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1rem;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    position: absolute;
+    z-index: 10;
+    left: 50%;
+    bottom: 7%;
     transform: translate(-50%, 0%);
     color: white;
     width: 100%;

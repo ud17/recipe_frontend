@@ -15,7 +15,7 @@ function Searched() {
     useEffect(() => {
       const response = data?.data;
       setSearchedRecipes(response?.recipes);
-    }, [data?.data,params.search]);
+    }, [data?.data, params.search]);
 
     const handleChange = async (e, page) => {
       setPage(page);
