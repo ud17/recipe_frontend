@@ -1,12 +1,28 @@
 import Pages from "./pages/Pages";
 import Category from "./components/Category";
 import Search from "./components/Search";
-import { BrowserRouter } from "react-router-dom";
+import Login from "./pages/Login";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { GiKnifeFork } from "react-icons/gi"
+import Signup from "./pages/Signup";
+import { useState } from "react";
+import Home from "./pages/Home";
+import Cuisine from "./pages/Cuisine";
+import Searched from "./pages/Searched";
+import Recipe from "./pages/Recipe";
+import Protected from "./utils/Protected";
 
 function App() {
+  const [isLoggedIn, setisLoggedIn] = useState(null);
+    const logIn = () => {
+      setisLoggedIn(true);
+    };
+    const logOut = () => {
+      setisLoggedIn(false);
+    };
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -14,9 +30,21 @@ function App() {
           <GiKnifeFork />
           <Logo to={"/"}>recipeee</Logo>
         </Nav>
-        <Search />
-        <Category />
-        <Pages />
+        
+      <Routes>
+          <Route exact path="/" element={<Protected isLoggedIn={isLoggedIn}><Home /></Protected>}/>
+          <Route exact path="/cuisine/:type" element={<Protected isLoggedIn={isLoggedIn}>
+            <Cuisine />
+          </Protected>}/>
+          <Route exact path="/searched/:search" element={<Protected isLoggedIn={isLoggedIn}>
+            <Searched />
+          </Protected>}/>
+          <Route exact path="/recipe/:recipeId" element={<Protected isLoggedIn={isLoggedIn}>
+            <Recipe />
+          </Protected>}/>
+          <Route exact path="/login" element={<Login/>}/>
+          <Route exact path="/signup" element={<Signup/>}/>
+      </Routes>
       </BrowserRouter>
     </div>
   );
