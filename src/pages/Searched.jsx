@@ -10,7 +10,7 @@ function Searched() {
     const [page, setPage] = useState();
     const [searchedRecipes, setSearchedRecipes] = useState([]);
     const params = useParams();
-    const {data, isFetching, isLoading} = useGetRecipesByTitleQuery({title: params.search, userId: 'udit'});
+    const {data, isFetching, isLoading} = useGetRecipesByTitleQuery({title: params.search, userId: localStorage.getItem("userId")});
 
     useEffect(() => {
       const response = data?.data;

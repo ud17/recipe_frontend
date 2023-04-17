@@ -60,7 +60,7 @@ function Recipe() {
     }).data;
     if(response.code === 200) {
       navigate("/");
-      window.location.reload();
+      //window.location.reload();
     }
   }
 
