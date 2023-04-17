@@ -9,7 +9,7 @@ import { Skeleton } from "antd";
 const Popular = () => {
 
   const [popular, setPopular] = useState([]);
-  const {data, isFetching} = useGetMostViewedRecipesQuery();
+  const {data, isFetching} = useGetMostViewedRecipesQuery(localStorage.getItem("userId"));
 
   useEffect(() => {
     setPopular(data?.data);

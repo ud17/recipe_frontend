@@ -4,6 +4,8 @@ import Popular from "../components/Popular";
 import React from 'react';
 
 function Home() {
+  localStorage.setItem("userId", "");
+  localStorage.setItem("role", "");
   return (
     <div>
         <Latest />

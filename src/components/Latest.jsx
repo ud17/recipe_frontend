@@ -11,7 +11,7 @@ import { useGetLatestRecipesQuery } from '../service/recipeApi';
 const Latest = () => {
 
   const [Latest, setLatest] = useState([]);
-  const {data, isFetching} = useGetLatestRecipesQuery();
+  const {data, isFetching} = useGetLatestRecipesQuery(localStorage.getItem("userId"));
 
   useEffect(() => {
     setLatest(data?.data);

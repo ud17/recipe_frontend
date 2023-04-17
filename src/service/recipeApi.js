@@ -8,22 +8,22 @@ export const recipeApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
     endpoints: (builder) => ({
         getLatestRecipes: builder.query({
-            query: () => `/get-latest-recipes`
+            query: (userId) => `/get-latest-recipes/${userId}`
         }),
         getMostViewedRecipes: builder.query({
-            query: () => `/get-most-viewed-recipes`
+            query: (userId) => `/get-most-viewed-recipes/${userId}`
         }),
         getAllRecipes: builder.query({
             query: () => `/get-all-recipes`
         }),
         getRecipeById: builder.query({
-            query: (recipeId) => `/get-recipe/${recipeId}`
+            query: ({recipeId, userId}) => `/get-recipe/${recipeId}/${userId}`
         }),
         getRecipeByCategory: builder.query({
-            query: ({type, page}) =>`/get-by-category/${type}/${page}`
+            query: ({type, userId}) =>`/get-by-category/${type}/${userId}`
         }),
         getRecipesByTitle: builder.query({
-            query: ({title, page}) => `/search/${title}/${page}`
+            query: ({title, userId}) => `/search/${title}/${userId}`
         }),
         incrementRecipeView: builder.mutation({
             query: (recipeId) => ({

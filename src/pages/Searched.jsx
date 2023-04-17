@@ -10,24 +10,24 @@ function Searched() {
     const [page, setPage] = useState();
     const [searchedRecipes, setSearchedRecipes] = useState([]);
     const params = useParams();
-    const {data, isFetching, isLoading} = useGetRecipesByTitleQuery({title: params.search, page});
+    const {data, isFetching, isLoading} = useGetRecipesByTitleQuery({title: params.search, userId: 'udit'});
 
     useEffect(() => {
       const response = data?.data;
-      setSearchedRecipes(response?.recipes);
+      setSearchedRecipes(response);
     }, [data?.data, params.search]);
 
-    const handleChange = async (e, page) => {
-      setPage(page);
-    }
+    // const handleChange = async (e, page) => {
+    //   setPage(page);
+    // }
 
     if(isFetching || isLoading) return <Skeleton active />;
 
   return (
     <div>
-      <Page>
+      {/* <Page>
           <Pagination count={data?.data.totalCount} defaultPage={1} page={page} variant="outlined" color="secondary" onChange={handleChange}/>
-      </Page>
+      </Page> */}
       <Grid>
           {
               searchedRecipes?.map((recipe) => {
