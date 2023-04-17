@@ -16,12 +16,6 @@ import Protected from "./utils/Protected";
 
 function App() {
   const [isLoggedIn, setisLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
-    const logIn = () => {
-      setisLoggedIn(true);
-    };
-    const logOut = () => {
-      setisLoggedIn(false);
-    };
 
   return (
     <div className="App">
