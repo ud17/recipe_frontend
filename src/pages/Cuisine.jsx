@@ -100,7 +100,7 @@ function Cuisine() {
         userId: localStorage.getItem("userId")
       }
       
-      const response = await axios.post("http://localhost:8080/add", body, {
+      await axios.post("http://localhost:8080/add", body, {
         headers: { 
           "Content-Type": "application/x-www-form-urlencoded"
         }
@@ -118,14 +118,14 @@ function Cuisine() {
       {
         error.length !== 0 && error
       }
-      <div>
+      {localStorage.getItem("role") === "ADMIN" && <div>
         <TextField placeholder="Title" style={{margin: '1%'}} onChange={(e) => setTitle(e.target.value)}></TextField>
         <TextField value={params.type.toUpperCase()} disabled style={{margin: '1%'}}></TextField>
         <TextField placeholder="Image URL address" onChange={(e) => setImage(e.target.value)} style={{margin: '1%'}}></TextField>
         <TextField  type="number" placeholder="Views" style={{margin: '1%'}} onChange={(e) => setViews(e.target.value)}></TextField>
         <Button style={{margin: '1%'}} onClick={() => addRecipe()}>Add</Button>
-      </div>
-      <div style={{margin: '1%'}}>
+      </div>}
+      {localStorage.getItem("role") === "ADMIN" && <div style={{margin: '1%'}}>
         <MultipleValueTextInput placeholder='Instructions' className='multivalue' 
           onItemAdded={(item, allItems) => addInstructions(item, allItems)}
           onItemDeleted={(item, allItems) => deleteInstructions(item, allItems)}
@@ -134,7 +134,8 @@ function Cuisine() {
           onItemAdded={(item, allItems) => addIngredients(item, allItems)}
           onItemDeleted={(item, allItems) => deleteIngredients(item, allItems)}
           />
-      </div>
+      </div>}
+      
       <Grid>
       {
         cuisine?.map((item) => {

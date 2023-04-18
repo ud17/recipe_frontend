@@ -11,6 +11,7 @@ function Home() {
   const [isLoggedIn, setisLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
   const logOut = () => {
     localStorage.setItem("isLoggedIn", false);
+    localStorage.clear();
     setisLoggedIn(false);
     navigate("/login");
   };
