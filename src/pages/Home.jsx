@@ -18,7 +18,7 @@ function Home() {
 
   return (
     <div>
-        {isLoggedIn ? ( <Button onClick={logOut}>Logout</Button> ) : <></>}
+        {/* {isLoggedIn ? ( <Button onClick={logOut}>Logout</Button> ) : <></>} */}
         <Search />
         <Category />
         <Latest />
@@ -29,6 +29,8 @@ function Home() {
 
 
 const Button = styled.button`
+  display: flex;
+  justify-content: end;
   background-color: red;
   color: white;
   padding: 10px;
